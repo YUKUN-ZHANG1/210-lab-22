@@ -45,6 +45,22 @@ public:
         }
     }
 
+    void pop_front() {
+        if (!head) return; //is empty
+        Node* temp = head;
+        head = head->next;
+        if(head) head->prev = nullptr;
+        delete temp;
+    }
+
+    void pop_back() {
+        if (!tail) return; //is empty
+        Node* temp = tail;
+        tail = tail->prev;
+        if(tail) tail->next = nullptr;
+        delete temp;
+    }
+
     void insert_after(int value, int position) {
         if (position < 0) {
             cout << "Position must be >= 0." << endl;
@@ -99,6 +115,31 @@ public:
 
         delete temp;
     }
+
+    void delete_pos(int pos) {
+        if (!head||pos<0) return; // Empty list or illegal position
+
+        Node* temp = head;
+        for (;temp && pos>0; pos--)
+            temp = temp->next;
+
+        if (!temp) return; // position not found
+
+        if (temp->prev) {
+            temp->prev->next = temp->next;
+        } else {
+            head = temp->next; // Deleting the head
+        }
+
+        if (temp->next) {
+            temp->next->prev = temp->prev;
+        } else {
+            tail = temp->prev; // Deleting the tail
+        }
+
+        delete temp;
+    }
+
 
     void print() {
         Node* current = head;
