@@ -50,6 +50,7 @@ public:
         Node* temp = head;
         head = head->next;
         if(head) head->prev = nullptr;
+        else tail = nullptr; 
         delete temp;
     }
 
@@ -58,6 +59,7 @@ public:
         Node* temp = tail;
         tail = tail->prev;
         if(tail) tail->next = nullptr;
+        else head = nullptr;
         delete temp;
     }
 
@@ -92,7 +94,7 @@ public:
         temp->next = newNode;
     }
 
-    void delete_node(int value) {
+    void delete_val(int value) {
         if (!head) return; // Empty list
 
         Node* temp = head;
