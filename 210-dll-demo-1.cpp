@@ -1,3 +1,6 @@
+// COMSC-210 | Lab 22: Upgrade the DLL Class | Yukun Zhang
+// IDE used: Visual Studio Code
+
 #include <iostream>
 using namespace std;
 
@@ -45,7 +48,7 @@ public:
         }
     }
 
-    void pop_front() {
+    void pop_front() { //delete a node from front
         if (!head) return; //is empty
         Node* temp = head;
         head = head->next;
@@ -54,7 +57,7 @@ public:
         delete temp;
     }
 
-    void pop_back() {
+    void pop_back() { //delete a node from back
         if (!tail) return; //is empty
         Node* temp = tail;
         tail = tail->prev;
@@ -94,7 +97,7 @@ public:
         temp->next = newNode;
     }
 
-    void delete_val(int value) {
+    void delete_val(int value) { //delete a node by search value
         if (!head) return; // Empty list
 
         Node* temp = head;
@@ -118,7 +121,7 @@ public:
         delete temp;
     }
 
-    void delete_pos(int pos) {
+    void delete_pos(int pos) { //delete a node by position
         if (!head||pos<0) return; // Empty list or illegal position
 
         Node* temp = head;
@@ -163,6 +166,10 @@ public:
         cout << endl;
     }
 
+    bool is_empty() {
+        return head == nullptr;
+    }
+
     ~DoublyLinkedList() {
         while (head) {
             Node* temp = head;
@@ -173,22 +180,69 @@ public:
 };
 
 // Driver program
+// Driver program
 int main() {
     DoublyLinkedList list;
-    int size = rand() % (MAX_LS-MIN_LS+1) + MIN_LS;
 
+    // Randomly generate a list of a certain size
+    int size = rand() % (MAX_LS-MIN_LS+1) + MIN_LS;
     for (int i = 0; i < size; ++i)
         list.push_back(rand() % (MAX_NR-MIN_NR+1) + MIN_NR);
-    cout << "List forward: ";
+
+    cout << "Initial list (forward): ";
     list.print();
 
-    cout << "List backward: ";
+    cout << "Initial list (backward): ";
     list.print_reverse();
 
-    cout << "Deleting list, then trying to print.\n";
-    list.~DoublyLinkedList();
-    cout << "List forward: ";
+    // Test push_front()
+    cout << "\nPushing 55 to the front of the list...\n";
+    list.push_front(55);
     list.print();
+
+    // Test pop_front()
+    cout << "\nPopping front node...\n";
+    list.pop_front();
+    list.print();
+
+    // Test pop_back()
+    cout << "\nPopping back node...\n";
+    list.pop_back();
+    list.print();
+
+    // Test insert_after() to insert 88 after position 3
+    cout << "\nInserting 88 after position 3...\n";
+    list.insert_after(88, 3);
+    list.print();
+
+    // Test delete_pos() to delete the node at position 2
+    cout << "\nDeleting node at position 2...\n";
+    list.delete_pos(2);
+    list.print();
+
+    // Test delete_val() to delete the node with value 88
+    cout << "\nDeleting node with value 88...\n";
+    list.delete_val(88);
+    list.print();
+
+    // Test pop_front() and pop_back() again
+    cout << "\nPopping front and back nodes...\n";
+    list.pop_front();
+    list.pop_back();
+    list.print();
+
+    // Test behavior when the list is empty
+    cout << "\nClearing the list...\n";
+    while (!list.is_empty()) {
+        list.pop_front(); // Gradually remove all nodes from the list
+    }
+    list.print();
+
+    cout << "Trying to delete from an empty list...\n";
+    list.pop_back(); // Test deleting the tail node from an empty list
+    list.delete_pos(0); // Test deleting a node at a specific position from an empty list
+    list.delete_val(10); // Test deleting a node by value from an empty list
 
     return 0;
 }
+
